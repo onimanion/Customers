@@ -28,8 +28,9 @@ class CreateCustomer extends Component
             'phone' => 'required|unique:customers|max:255'
         ]);
         Customer::create($validated);
-        return view('livewire.customers');
-
+        $this->reset();
+        session()->flash('success', 'customer created sucussfully');
+        return $this->redirect('/customers', navigate: true);
 
 
     }

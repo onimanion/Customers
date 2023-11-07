@@ -2,6 +2,10 @@
 
 use App\Livewire\CreateCustomer;
 use App\Livewire\Customers;
+use App\Livewire\EditCustomer;
+use App\Livewire\Login;
+use App\Livewire\Register;
+use App\Livewire\SingleCustomer;
 use App\Models\Customer;
 use Illuminate\Support\Facades\Route;
 
@@ -19,6 +23,18 @@ use Illuminate\Support\Facades\Route;
 //Route::get('/', function () {
 //    return view('welcome');
 //});
-Route::get('/customers/create', CreateCustomer::class);
+Route::group([
+    'prefix' => 'customers',
+    'middleware' => 'auth'
+], function () {
+    Route::get('/create', CreateCustomer::class);
 
-Route::get('/customers', Customers::class);
+    Route::get('/', Customers::class);
+
+    Route::get('/{customer}', SingleCustomer::class);
+    Route::get('/{customer}/edit', EditCustomer::class);
+});
+Route::get('/register', Register::class);
+Route::get('/login', Login::class)->name('login');
+
+
